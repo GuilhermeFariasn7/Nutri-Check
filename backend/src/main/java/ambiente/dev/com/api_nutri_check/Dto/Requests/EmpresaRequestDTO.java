@@ -1,5 +1,7 @@
 package ambiente.dev.com.api_nutri_check.Dto.Requests;
 
+import ambiente.dev.com.api_nutri_check.Models.TipoEmpresa;
+
 public record EmpresaRequestDTO(
 
          String razaoSocial,
@@ -8,6 +10,6 @@ public record EmpresaRequestDTO(
          String telefone,
          String email,
          String ramoAtividade,
-         String tipoEmpresa,
+         TipoEmpresa tipoEmpresa,
          EnderecoRequestDTO endereco
 ) {}

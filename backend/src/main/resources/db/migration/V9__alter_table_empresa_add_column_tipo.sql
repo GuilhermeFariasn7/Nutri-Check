@@ -1,0 +1,2 @@
+ALTER TABLE tb_empresas
+ADD COLUMN tipo VARCHAR(100) NOT NULL;

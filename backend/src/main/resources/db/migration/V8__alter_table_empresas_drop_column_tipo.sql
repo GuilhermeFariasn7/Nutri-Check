@@ -1,0 +1,1 @@
+ALTER TABLE tb_empresas DROP COLUMN tipo;

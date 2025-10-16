@@ -26,4 +26,9 @@ public class EmpresaController {
     public ResponseEntity<List<EmpresaResponseDTO>> listar() {
         return ResponseEntity.ok(service.listar());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmpresaResponseDTO> listarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.listarPorId(id));
+    }
 }

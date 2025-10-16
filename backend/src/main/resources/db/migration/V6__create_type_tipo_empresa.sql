@@ -1,0 +1,1 @@
+CREATE TYPE tipo_empresa AS ENUM ('PUBLICA', 'PRIVADA');

@@ -25,4 +25,10 @@ public class EmpresaService {
         return mapper.toListResponse(repository.findAll());
     }
 
+    public EmpresaResponseDTO listarPorId(Long id) {
+        return mapper.toResponse(repository.findById(id).orElseThrow(
+                ()-> new RuntimeException("Empresa não encontrada com id: " + id)
+        ));
+    }
+
 }

@@ -26,9 +26,8 @@ public class Empresa {
     private String ramoAtividade;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_empresa")
+    @Column(name = "tipo", columnDefinition = "tipo_empresa")
     private TipoEmpresa tipoEmpresa;
-
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_endereco")
