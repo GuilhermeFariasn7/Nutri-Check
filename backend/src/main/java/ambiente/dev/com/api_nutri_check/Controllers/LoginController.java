@@ -50,8 +50,7 @@ public class LoginController {
                 return ResponseEntity.ok(response);
 
             } else {
-
-                return ResponseEntity.status(401).body("Credenciais inválidas");
+                return ResponseEntity.status(401).body("Credenciais inválidas, por favor verifique os dados digitados!");
             }
 
         } catch (Exception e) {
