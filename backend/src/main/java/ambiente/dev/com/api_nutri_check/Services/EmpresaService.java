@@ -18,9 +18,25 @@ public class EmpresaService {
 
     @Autowired
     private EmpresaMapper mapper;
+    @Autowired
+    private AuthService authService;
 
     public EmpresaResponseDTO criar(EmpresaRequestDTO dto) {
-        return mapper.toResponse(repository.save(mapper.toEntity(dto)));
+        // 1. Salva a empresa
+        Empresa empresa = mapper.toEntity(dto);
+        Empresa empresaSalva = repository.save(empresa);
+
+        // 2. Cria o usuário associado à empresa
+        authService.criarUsuario(
+                dto.login(),           // login da empresa
+                dto.senha(),           // senha da empresa
+                empresaSalva.getRazaoSocial(), // nome = razão social
+                "empresa",             // role = empresa
+                empresaSalva.getEmail(), //Buscar e-mail da empresa
+                empresaSalva.getId()   // empresaId
+        );
+        //3. Retornar empresa salva desta forma pois precisa ser criado o usuário para acesso da entidade.
+        return mapper.toResponse(empresaSalva);
     }
 
     public List<EmpresaResponseDTO> listar() {

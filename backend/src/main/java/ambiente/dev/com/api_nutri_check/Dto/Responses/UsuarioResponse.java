@@ -5,17 +5,25 @@ public class UsuarioResponse {
     private String nome;
     private String email;
     private String tipo;
-
+    private Long empresa_id;
 
     public UsuarioResponse() {}
 
-    public UsuarioResponse(Long id, String nome, String email, String tipo) {
+    public UsuarioResponse(Long id, String nome, String email, String tipo, Long empresa_id) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.tipo = tipo;
+        this.empresa_id = empresa_id;
     }
 
+    public Long getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(Long empresa_id) {
+        this.empresa_id = empresa_id;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

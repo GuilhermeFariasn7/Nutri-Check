@@ -22,18 +22,20 @@ public class Usuario {
     private String email;
 
     @Column(name = "role", nullable = false)
-    private String role;   // ← CORRIGIDO: era 'tipo', agora é 'role'
+    private String role;
 
     @Column(name = "empresa_id")
     private Long empresaId;
 
     public Usuario() {}
 
-    public Usuario(String login, String senha, String nome, String role) {
+    public Usuario(String login, String senha, String nome, String email, String role, Long empresaId) {
         this.login = login;
         this.senha = senha;
         this.nome = nome;
+        this.email = email;
         this.role = role;
+        this.empresaId = empresaId;
     }
 
     public Long getId() { return id; }

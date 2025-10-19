@@ -42,12 +42,14 @@ public class AuthService {
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getRole()
+                usuario.getRole(),
+                usuario.getEmpresaId()
         );
     }
 
-    public Usuario criarUsuario(String login, String senha, String nome, String role) {
-        Usuario usuario = new Usuario(login, senha, nome, role);
+    public Usuario criarUsuario(String login, String senha, String nome, String role,String email, Long empresaId) {
+        Usuario usuario = new Usuario(login, senha, nome, email, role,empresaId);
+        usuario.setEmpresaId(empresaId);
         return usuarioRepository.save(usuario);
     }
 
