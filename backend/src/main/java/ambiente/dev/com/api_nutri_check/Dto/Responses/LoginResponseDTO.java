@@ -4,7 +4,7 @@ public class LoginResponseDTO {
     private String token;
     private UsuarioResponse user;
 
-    // Construtores
+
     public LoginResponseDTO() {}
 
     public LoginResponseDTO(String token, UsuarioResponse user) {
@@ -12,7 +12,7 @@ public class LoginResponseDTO {
         this.user = user;
     }
 
-    // Getters e Setters
+
     public String getToken() { return token; }
     public void setToken(String token) { this.token = token; }
 

@@ -13,30 +13,29 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
-    public Optional<Usuario> autenticar(String login, String senha) {
-        System.out.println("Buscando usuário com login: " + login);
+    /**
+     * Retorna o usuário autenticado, ou uma mensagem específica em caso de erro.
+     * @param login Login informado pelo usuário
+     * @param senha Senha informada pelo usuário
+     * @return Resultado contendo o tipo de falha ou o usuário autenticado
+     */
+    public AuthResult autenticar(String login, String senha) {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findByLogin(login);
 
-        if (usuarioOpt.isPresent()) {
-            Usuario usuario = usuarioOpt.get();
-            System.out.println("Usuário encontrado: " + usuario.getNome());
-            System.out.println("Comparando senhas...");
-
-            // Comparação simples de senha
-            if (usuario.getSenha().equals(senha)) {
-                return Optional.of(usuario);
-            } else {
-                System.out.println(" Senha incorreta!");
-            }
-        } else {
-            System.out.println("Usuário não encontrado!");
+        if (usuarioOpt.isEmpty()) {
+            return new AuthResult(AuthStatus.USUARIO_NAO_ENCONTRADO, null);
         }
 
-        return Optional.empty();
-    }
+        Usuario usuario = usuarioOpt.get();
 
+        // Comparação de senha simples (sem criptografia)
+        if (!usuario.getSenha().equals(senha)) {
+            return new AuthResult(AuthStatus.SENHA_INCORRETA, null);
+        }
+
+        return new AuthResult(AuthStatus.SUCESSO, usuario);
+    }
 
     public UsuarioResponse toResponse(Usuario usuario) {
         return new UsuarioResponse(
@@ -47,9 +46,34 @@ public class AuthService {
         );
     }
 
-    // Método para criar usuário (se precisar)
     public Usuario criarUsuario(String login, String senha, String nome, String role) {
         Usuario usuario = new Usuario(login, senha, nome, role);
         return usuarioRepository.save(usuario);
+    }
+
+    // Enum interno para representar resultado da autenticação
+    public enum AuthStatus {
+        SUCESSO,
+        USUARIO_NAO_ENCONTRADO,
+        SENHA_INCORRETA
+    }
+
+    // Classe auxiliar de retorno
+    public static class AuthResult {
+        private final AuthStatus status;
+        private final Usuario usuario;
+
+        public AuthResult(AuthStatus status, Usuario usuario) {
+            this.status = status;
+            this.usuario = usuario;
+        }
+
+        public AuthStatus getStatus() {
+            return status;
+        }
+
+        public Usuario getUsuario() {
+            return usuario;
+        }
     }
 }

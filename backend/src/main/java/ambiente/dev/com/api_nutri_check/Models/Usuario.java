@@ -27,7 +27,6 @@ public class Usuario {
     @Column(name = "empresa_id")
     private Long empresaId;
 
-    // Construtores
     public Usuario() {}
 
     public Usuario(String login, String senha, String nome, String role) {
@@ -37,7 +36,6 @@ public class Usuario {
         this.role = role;
     }
 
-    // Getters e Setters CORRIGIDOS
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

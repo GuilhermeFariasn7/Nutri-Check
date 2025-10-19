@@ -1,16 +1,30 @@
 package ambiente.dev.com.api_nutri_check.Dto.Responses;
 
-import ambiente.dev.com.api_nutri_check.Dto.Requests.EnderecoRequestDTO;
-
 public record EmpresaResponseDTO(
-
         Long id,
         String razaoSocial,
-        String cnpj,
+        String nomeFantasia,
+        String alvara,
         String inscricaoEstadual,
+        String cnpjCpf,
         String telefone,
+        String fax,
         String email,
+        String endereco,
+        String numero,
+        String complemento,
+        String bairro,
+        String municipio,
+        String uf,
+        String cep,
         String ramoAtividade,
         String tipoEmpresa,
-        EnderecoResponseDTO endereco
+        Integer numeroFuncionarios,
+        Integer numeroTurnos,
+        String responsavelManipulacao,
+        String cpfManipulador,
+        String representanteLegal,
+        String cpfRepresentante,
+        String login,
+        String motivoInspecao
 ) {}

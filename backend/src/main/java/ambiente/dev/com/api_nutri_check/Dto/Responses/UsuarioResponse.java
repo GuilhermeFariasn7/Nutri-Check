@@ -6,7 +6,7 @@ public class UsuarioResponse {
     private String email;
     private String tipo;
 
-    // Construtores
+
     public UsuarioResponse() {}
 
     public UsuarioResponse(Long id, String nome, String email, String tipo) {
@@ -16,7 +16,7 @@ public class UsuarioResponse {
         this.tipo = tipo;
     }
 
-    // Getters e Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

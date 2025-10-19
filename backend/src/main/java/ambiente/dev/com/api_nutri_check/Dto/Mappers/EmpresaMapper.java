@@ -9,7 +9,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = EnderecoMapper.class)
+@Mapper(componentModel = "spring")
 public interface EmpresaMapper {
 
     @Mapping(target = "id", ignore = true)

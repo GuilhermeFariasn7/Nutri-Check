@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/empresas")
+@RequestMapping("/api/empresas")
 public class EmpresaController {
 
     @Autowired
@@ -19,6 +19,7 @@ public class EmpresaController {
 
     @PostMapping
     public ResponseEntity<EmpresaResponseDTO> criar(@RequestBody EmpresaRequestDTO dto) {
+
         return ResponseEntity.status(HttpStatus.CREATED).body(service.criar(dto));
     }
 
@@ -30,5 +31,16 @@ public class EmpresaController {
     @GetMapping("/{id}")
     public ResponseEntity<EmpresaResponseDTO> listarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.listarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpresaResponseDTO> atualizar(@PathVariable Long id, @RequestBody EmpresaRequestDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

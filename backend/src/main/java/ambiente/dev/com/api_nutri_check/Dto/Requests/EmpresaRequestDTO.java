@@ -1,15 +1,30 @@
 package ambiente.dev.com.api_nutri_check.Dto.Requests;
 
-import ambiente.dev.com.api_nutri_check.Models.TipoEmpresa;
-
 public record EmpresaRequestDTO(
-
-         String razaoSocial,
-         String cnpj,
-         String inscricaoEstadual,
-         String telefone,
-         String email,
-         String ramoAtividade,
-         TipoEmpresa tipoEmpresa,
-         EnderecoRequestDTO endereco
+        String razaoSocial,
+        String nomeFantasia,
+        String alvara,
+        String inscricaoEstadual,
+        String cnpjCpf,
+        String telefone,
+        String fax,
+        String email,
+        String endereco,
+        String numero,
+        String complemento,
+        String bairro,
+        String municipio,
+        String uf,
+        String cep,
+        String ramoAtividade,
+        String tipoEmpresa,
+        Integer numeroFuncionarios,
+        Integer numeroTurnos,
+        String responsavelManipulacao,
+        String cpfManipulador,
+        String representanteLegal,
+        String cpfRepresentante,
+        String login,
+        String senha,
+        String motivoInspecao
 ) {}

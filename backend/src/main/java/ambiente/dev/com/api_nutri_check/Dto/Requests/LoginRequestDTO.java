@@ -4,7 +4,7 @@ public class LoginRequestDTO {
     private String login;
     private String senha;
 
-    // Construtores
+
     public LoginRequestDTO() {}
 
     public LoginRequestDTO(String login, String senha) {
@@ -12,7 +12,7 @@ public class LoginRequestDTO {
         this.senha = senha;
     }
 
-    // Getters e Setters
+
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; }
 

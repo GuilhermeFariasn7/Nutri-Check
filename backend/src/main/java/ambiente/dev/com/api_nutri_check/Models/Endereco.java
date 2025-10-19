@@ -25,7 +25,7 @@ public class Endereco {
     private String municipio;
     private String uf;
     private String cep;
-
-    @OneToOne(mappedBy = "endereco")
-    private Empresa empresa;
+    /*ESTAVA DANDO CONFLITO*/
+    /*@OneToOne(mappedBy = "endereco")
+    private Empresa empresa;*/
 }
