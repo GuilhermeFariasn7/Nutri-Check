@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model admins {
+  id         Int    @id @default(autoincrement())
+  login      String @db.VarChar(255)
+  senha      String @db.VarChar(255)
+  nome       String @db.VarChar(255)
+  permissoes Json?
+}
+
+model empresas {
+  id                      Int             @id @default(autoincrement())
+  razao_social            String          @db.VarChar(255)
+  nome_fantasia           String          @db.VarChar(255)
+  alvara                  String?         @db.VarChar(100)
+  inscricao_estadual      String?         @db.VarChar(100)
+  cnpj_cpf                String          @db.VarChar(20)
+  telefone                String?         @db.VarChar(20)
+  fax                     String?         @db.VarChar(20)
+  email                   String?         @db.VarChar(255)
+  endereco                String?         @db.VarChar(255)
+  numero                  Int?
+  complemento             String?         @db.VarChar(255)
+  bairro                  String?         @db.VarChar(255)
+  municipio               String?         @db.VarChar(255)
+  uf                      String?         @db.Char(2)
+  cep                     String?         @db.VarChar(10)
+  ramo_atividade          String?         @db.VarChar(255)
+  numero_funcionarios     Int?
+  numero_turnos           Int?
+  responsavel_manipulacao String?         @db.VarChar(255)
+  representante_legal     String?         @db.VarChar(255)
+  cpf_representante       String?         @db.VarChar(20)
+  login                   String          @db.VarChar(255)
+  senha                   String          @db.VarChar(255)
+  motivo_inspecao         String?         @db.VarChar(255)
+  relatorio_id            Int?
+  cpf_manipulador         String?         @db.VarChar(14)
+  tipo_empresa            String?         @db.VarChar(50)
+  relatorios              relatorios?     @relation(fields: [relatorio_id], references: [id], onUpdate: NoAction)
+  questionarios           questionarios[]
+  usuarios                usuarios[]
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id(map: "flyway_schema_history_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model relatorios {
+  id                    Int        @id @default(autoincrement())
+  empresa_id            Int?
+  data_criacao          DateTime   @db.Timestamp(6)
+  perguntas_respondidas Json?
+  status_relatorio      String     @db.VarChar(20)
+  relatorio_gerado      Boolean    @default(false)
+  empresas              empresas[]
+}
+
+model tb_empresas {
+  id                 BigInt        @id @default(autoincrement())
+  razao_social       String        @db.VarChar(255)
+  cnpj               String        @unique @db.VarChar(20)
+  inscricao_estadual String        @unique @db.VarChar(100)
+  telefone           String?       @db.VarChar(20)
+  email              String?       @unique @db.VarChar(255)
+  ramo_atividade     String?       @db.VarChar(255)
+  id_endereco        BigInt?
+  id_usuario         BigInt?
+  tipo               String        @db.VarChar(100)
+  tb_enderecos       tb_enderecos? @relation(fields: [id_endereco], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_endereco")
+  tb_usuarios        tb_usuarios?  @relation(fields: [id_usuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_usuario")
+}
+
+model tb_enderecos {
+  id          BigInt        @id @default(autoincrement())
+  rua         String        @db.VarChar(255)
+  numero      Int
+  complemento String?       @db.VarChar(255)
+  bairro      String        @db.VarChar(255)
+  municipio   String        @db.VarChar(255)
+  uf          String        @db.Char(2)
+  cep         String        @db.Char(9)
+  tb_empresas tb_empresas[]
+}
+
+model tb_usuarios {
+  id          BigInt        @id(map: "pk_tb_usuarios") @default(autoincrement())
+  login       String        @unique @db.VarChar(255)
+  senha       String        @db.VarChar(255)
+  tipo        tipo_usuario
+  tb_empresas tb_empresas[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model usuarios {
+  id         Int       @id @default(autoincrement())
+  login      String    @db.VarChar(255)
+  senha      String    @db.VarChar(255)
+  nome       String    @db.VarChar(255)
+  email      String?   @db.VarChar(255)
+  role       String    @db.VarChar(20)
+  empresa_id Int?
+  empresas   empresas? @relation(fields: [empresa_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model questionarios {
+  id                      String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  empresa_id              Int
+  status                  String?                  @default("rascunho") @db.VarChar(20)
+  numero_funcionarios     String?                  @db.VarChar(50)
+  numero_turnos           String?                  @db.VarChar(50)
+  responsavel_manipulacao String?                  @db.VarChar(255)
+  representante_legal     String?                  @db.VarChar(255)
+  cpf_representante       String?                  @db.VarChar(14)
+  motivo_inspecao         String[]
+  responsavel1            String?                  @db.VarChar(255)
+  matricula1              String?                  @db.VarChar(100)
+  responsavel_empresa     String?                  @db.VarChar(255)
+  local_inspecao          String?                  @db.VarChar(255)
+  data_inspecao           DateTime?                @db.Date
+  created_at              DateTime?                @default(now()) @db.Timestamp(6)
+  updated_at              DateTime?                @default(now()) @db.Timestamp(6)
+  empresas                empresas                 @relation(fields: [empresa_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  respostas_questionario  respostas_questionario[]
+}
+
+model respostas_questionario {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  questionario_id String        @db.Uuid
+  pergunta_id     String        @db.VarChar(20)
+  resposta        String        @db.VarChar(20)
+  observacao      String?
+  questionarios   questionarios @relation(fields: [questionario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([questionario_id, pergunta_id])
+  @@index([pergunta_id], map: "idx_respostas_pergunta_id")
+  @@index([questionario_id], map: "idx_respostas_questionario_id")
+}
+
+enum tipo_empresa {
+  PUBLICA
+  PRIVADA
+}
+
+enum tipo_usuario {
+  EMPRESA
+  ADMIN
+  FUNCIONARIO
+}
